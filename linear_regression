@@ -1,0 +1,61 @@
+#linear regression using python
+#dataset /kaggle/input/random-linear-regression
+#import libraries
+%matplotlib inline
+import numpy as np
+import random
+import matplotlib.pyplot as plt
+import pandas as pd
+x=np.linspace(0,100,50)
+y=x + np.random.normal(2*x+2,20)
+plt.xlim=200
+plt.ylim=200
+plt.xlabel('x')
+plt.ylabel('y')
+plt.scatter(x,y) 
+#linear relationship between dependent and independent variables, we can use linear regression
+
+#finding bias
+X=x
+Y=y
+# mean of our inputs and outputs
+x_mean = np.mean(X)
+y_mean = np.mean(Y)
+#total number of values
+n = len(X)
+# using the formula to calculate the b1 and b0
+numerator = 0
+denominator = 0
+for i in range(n):
+    numerator += (X[i] - x_mean) * (Y[i] - y_mean)
+    denominator += (X[i] - x_mean) ** 2
+    
+b1 = numerator / denominator
+b0 = y_mean - (b1 * x_mean)
+#printing the coefficient
+
+print(b1,b0)
+
+rmse = 0
+for i in range(n):
+    y_pred=  b0 + b1* X[i]
+    rmse += (Y[i] - y_pred) ** 2
+    
+rmse = np.sqrt(rmse/n)
+print(rmse)
+
+#score
+sumofsquares = 0
+sumofresiduals = 0
+for i in range(n) :
+    y_pred = b0 + b1 * X[i]
+    sumofsquares += (Y[i] - y_mean) ** 2
+    sumofresiduals += (Y[i] - y_pred) **2
+    
+score  = 1 - (sumofresiduals/sumofsquares)
+print(score)
+
+#predicting for x=150
+y_pred=b0+b1* 150
+print('for x=150 y= \n')
+print(int(y_pred))
